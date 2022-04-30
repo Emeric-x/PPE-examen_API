@@ -401,7 +401,7 @@ namespace classes_metier
     public class Cpresenters
     {
         public List<Cpresenter> oListPresenters { get; set; } = new List<Cpresenter>();
-        private Cpresenters()
+        public Cpresenters()
         {
             Cdao odao = new Cdao();
             string query = "SELECT * FROM presenter";

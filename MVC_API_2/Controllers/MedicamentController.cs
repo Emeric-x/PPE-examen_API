@@ -38,7 +38,7 @@ namespace Test_1.Controllers
         {
             try
             {
-                Cpresenters opresenters = Cpresenters.getInstance();
+                Cpresenters opresenters = new Cpresenters();
                 if (opresenters.oListPresenters != null)
                 {
                     return Json(opresenters.oListPresenters);

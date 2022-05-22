@@ -55,7 +55,7 @@ namespace classes_metier
         private Cvisiteurs()
         {
             Cdao odao = new Cdao();
-            string query = "SELECT * FROM visiteur INNER JOIN employe ON visiteur.id=employe.id;";
+            string query = "call SelectVisiteurs()";
             MySqlDataReader ord = odao.getReader(query);
             while (ord.Read())
             {
@@ -111,7 +111,7 @@ namespace classes_metier
         private CchefRegions()
         {
             Cdao odao = new Cdao();
-            string query = "SELECT * FROM chefRegion INNER JOIN employe ON chefregion.id=employe.id;";
+            string query = "call SelectChefsRegion()";
             MySqlDataReader ord = odao.getReader(query);
             while (ord.Read())
             {
@@ -176,7 +176,7 @@ namespace classes_metier
         private Cmedicaments()
         {
             Cdao odao = new Cdao();
-            string query = "SELECT * FROM medicaments";
+            string query = "call SelectMedicaments()";
             MySqlDataReader ord = odao.getReader(query);
             while (ord.Read())
             {
@@ -224,7 +224,7 @@ namespace classes_metier
         public Cnotes() // constructeur en public pour pouvoir récupérer les notes mises à jour une fois modifiées
         {
             Cdao odao = new Cdao();
-            string query = "SELECT * FROM noter";
+            string query = "call SelectNote()";
             MySqlDataReader ord = odao.getReader(query);
             while (ord.Read())
             {
@@ -308,7 +308,7 @@ namespace classes_metier
         private Cmedecins()
         {
             Cdao odao = new Cdao();
-            string query = "SELECT * FROM medecin";
+            string query = "call SelectMedecins()";
             MySqlDataReader ord = odao.getReader(query);
             while (ord.Read())
             {
@@ -356,7 +356,7 @@ namespace classes_metier
         private CcompteRendus()
         {
             Cdao odao = new Cdao();
-            string query = "SELECT * FROM compterendu";
+            string query = "call SelectCompteRendu()";
             MySqlDataReader ord = odao.getReader(query);
             while (ord.Read())
             {
@@ -404,7 +404,7 @@ namespace classes_metier
         public Cpresenters()
         {
             Cdao odao = new Cdao();
-            string query = "SELECT * FROM presenter";
+            string query = "call SelectPresenter()";
             MySqlDataReader ord = odao.getReader(query);
             while (ord.Read())
             {
@@ -468,7 +468,7 @@ namespace classes_metier
         private Cregions()
         {
             Cdao odao = new Cdao();
-            string query = "SELECT * FROM region";
+            string query = "call SelectRegion()";
             MySqlDataReader ord = odao.getReader(query);
             while (ord.Read())
             {

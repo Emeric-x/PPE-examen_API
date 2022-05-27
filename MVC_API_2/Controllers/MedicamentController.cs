@@ -52,12 +52,12 @@ namespace Test_1.Controllers
         }
 
         [HttpGet]
-        public IHttpActionResult CreatePresenter(string sId_med, string sId_visit, int sId_medecin)
+        public IHttpActionResult CreatePresenter(string sId_med, string sId_visit, int sId_medecin, string sMonth)
         {
             try
             {
                 Cpresenters opresenters = Cpresenters.getInstance();
-                bool reponse = opresenters.ajouterPresenter(sId_med, sId_visit, sId_medecin);
+                bool reponse = opresenters.ajouterPresenter(sId_med, sId_visit, sId_medecin, sMonth);
 
                 if (reponse)
                 {

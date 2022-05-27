@@ -31,7 +31,7 @@ namespace Test_1
 
             config.Routes.MapHttpRoute(
             name: "Create_presenter",
-            routeTemplate: "api/Medicament/CreatePresenter/{sId_med}/{sId_visit}/{sId_medecin}",
+            routeTemplate: "api/Medicament/CreatePresenter/{sId_med}/{sId_visit}/{sId_medecin}/{sMonth}",
             defaults: new { controller = "Medicament", action = "CreatePresenter" }
             );
 

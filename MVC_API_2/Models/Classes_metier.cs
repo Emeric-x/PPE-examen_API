@@ -12,7 +12,7 @@ namespace classes_metier
     #region Cemploye
     public abstract class Cemploye
     {
-        protected Cemploye(string sid, string snom, string sprenom, string slogin, string smdp, string sadresse, int scp, string sville, DateTime sdateEmbauche, string smdp_hash)
+        protected Cemploye(string sid, string snom, string sprenom, string slogin, string smdp, string sadresse, int scp, string sville, DateTime sdateEmbauche, string smdp_hash, char sregion)
         {
             Id = sid;
             Nom = snom;
@@ -24,6 +24,7 @@ namespace classes_metier
             Ville = sville;
             DateEmbauche = sdateEmbauche;
             Mdp_hash = smdp_hash;
+            Region = sregion;
         }
 
         public string Id { get; set; }
@@ -36,14 +37,15 @@ namespace classes_metier
         public string Ville { get; set; }
         public DateTime DateEmbauche { get; set; }
         public string Mdp_hash { get; set; }
+        public char Region { get; set; }
     }
     #endregion
 
     #region Cvisiteur
     public class Cvisiteur : Cemploye
     {
-        public Cvisiteur(string sid, string snom, string sprenom, string slogin, string smdp, string sadresse, int scp, string sville, DateTime sdateEmbauche, string smdp_hash)
-            : base (sid, snom, sprenom, slogin, smdp, sadresse, scp, sville, sdateEmbauche, smdp_hash)
+        public Cvisiteur(string sid, string snom, string sprenom, string slogin, string smdp, string sadresse, int scp, string sville, DateTime sdateEmbauche, string smdp_hash, char sregion)
+            : base (sid, snom, sprenom, slogin, smdp, sadresse, scp, sville, sdateEmbauche, smdp_hash, sregion)
         {
 
         }
@@ -59,7 +61,7 @@ namespace classes_metier
             MySqlDataReader ord = odao.getReader(query);
             while (ord.Read())
             {
-                Cvisiteur ovisiteur = new Cvisiteur(Convert.ToString(ord["id"]), Convert.ToString(ord["nom"]), Convert.ToString(ord["prenom"]), Convert.ToString(ord["login"]), Convert.ToString(ord["mdp"]), Convert.ToString(ord["adresse"]), Convert.ToInt32(ord["cp"]), Convert.ToString(ord["ville"]), Convert.ToDateTime(ord["dateEmbauche"]), Convert.ToString(ord["mdp_hash"]));
+                Cvisiteur ovisiteur = new Cvisiteur(Convert.ToString(ord["id"]), Convert.ToString(ord["nom"]), Convert.ToString(ord["prenom"]), Convert.ToString(ord["login"]), Convert.ToString(ord["mdp"]), Convert.ToString(ord["adresse"]), Convert.ToInt32(ord["cp"]), Convert.ToString(ord["ville"]), Convert.ToDateTime(ord["dateEmbauche"]), Convert.ToString(ord["mdp_hash"]), Convert.ToChar(ord["region"]));
                 oListVisiteurs.Add(ovisiteur);
             }
         }
@@ -98,8 +100,8 @@ namespace classes_metier
     #region CchefRegion
     public class CchefRegion : Cemploye
     {
-        public CchefRegion(string sid, string snom, string sprenom, string slogin, string smdp, string sadresse, int scp, string sville, DateTime sdateEmbauche, string smdp_hash)
-           : base(sid, snom, sprenom, slogin, smdp, sadresse, scp, sville, sdateEmbauche, smdp_hash)
+        public CchefRegion(string sid, string snom, string sprenom, string slogin, string smdp, string sadresse, int scp, string sville, DateTime sdateEmbauche, string smdp_hash, char sregion)
+           : base(sid, snom, sprenom, slogin, smdp, sadresse, scp, sville, sdateEmbauche, smdp_hash, sregion)
         {
 
         }
@@ -115,7 +117,7 @@ namespace classes_metier
             MySqlDataReader ord = odao.getReader(query);
             while (ord.Read())
             {
-                CchefRegion ochefRegion = new CchefRegion(Convert.ToString(ord["id"]), Convert.ToString(ord["nom"]), Convert.ToString(ord["prenom"]), Convert.ToString(ord["login"]), Convert.ToString(ord["mdp"]), Convert.ToString(ord["adresse"]), Convert.ToInt32(ord["cp"]), Convert.ToString(ord["ville"]), Convert.ToDateTime(ord["dateEmbauche"]), Convert.ToString(ord["mdp_hash"]));
+                CchefRegion ochefRegion = new CchefRegion(Convert.ToString(ord["id"]), Convert.ToString(ord["nom"]), Convert.ToString(ord["prenom"]), Convert.ToString(ord["login"]), Convert.ToString(ord["mdp"]), Convert.ToString(ord["adresse"]), Convert.ToInt32(ord["cp"]), Convert.ToString(ord["ville"]), Convert.ToDateTime(ord["dateEmbauche"]), Convert.ToString(ord["mdp_hash"]), Convert.ToChar(ord["region"]));
                 oListChefs.Add(ochefRegion);
             }
         }
@@ -250,7 +252,7 @@ namespace classes_metier
         public int UpdateNote(string sText, string sId_med, string sId_visit)
         {
             Cdao odao = new Cdao();
-            string query = $"UPDATE `noter` SET `note` = '{sText}' WHERE id_visit='{sId_visit}' and id_med='{sId_med}'";
+            string query = $"call UpdateNote('{sId_visit}', '{sId_med}', '{sText}')";
             int nbEnregAffecte = odao.updateEnreg(query);
 
             /*
@@ -264,7 +266,7 @@ namespace classes_metier
         public int InsertNote(string sText, string sId_med, string sId_visit)
         {
             Cdao odao = new Cdao();
-            string query = $"INSERT INTO `noter` (`id`, `id_visit`, `id_med`, `note`) VALUES (NULL, '{sId_visit}', '{sId_med}', '{sText}')";
+            string query = $"call InsertNote('{sId_visit}', '{sId_med}', '{sText}')";
             int nbEnregAffecte = odao.insertEnreg(query);
 
             /* 
@@ -427,13 +429,14 @@ namespace classes_metier
             }
         }
 
-        public bool ajouterPresenter(string sId_med, string sId_visit, int sId_medecin)
+        public bool ajouterPresenter(string sId_med, string sId_visit, int sId_medecin, string sMonth)
         {
             try
             {
-                string AnneeMois = CtraitementDate.getAnneeMoisEnCours();
+                string AnneeMois = CtraitementDate.GetAnneeEnCours();
+                AnneeMois += CtraitementDate.MonthLetterToMonthNumber(sMonth);
                 Cdao odao = new Cdao();
-                string query = string.Format($"INSERT INTO presenter(id_med,id_visit,id_medecin, anneeMois) VALUES ('{sId_med}','{sId_visit}','{sId_medecin}','{AnneeMois}')");
+                string query = string.Format($"call InsertPresenter('{sId_med}', '{sId_visit}', {sId_medecin}, '{AnneeMois}')");
                 odao.insertEnreg(query);
 
                 Cpresenter opresenter = new Cpresenter(sId_med, sId_visit, sId_medecin, AnneeMois);

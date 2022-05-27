@@ -10,7 +10,7 @@ namespace classes_outils
 
     public class Cdao
     {
-        private string connectionString = "SERVER=127.0.0.1; DATABASE=final_gsb; UID=root; PASSWORD=";
+        private string connectionString = "SERVER=localhost; DATABASE=final_gsb; UID=Emeric_test; PASSWORD=JU3GcFNZr2ho9*Y/";
 
         //public object MySqldataAdapter { get; private set; }
 
@@ -136,6 +136,58 @@ namespace classes_outils
             string dateMySql = sdateFr.ToString("yyyy-MM-dd");
             return dateMySql;
 
+        }
+
+        public static string GetAnneeEnCours()
+        {
+            return DateTime.Now.ToString("yyyy");
+        }
+
+        public static string MonthLetterToMonthNumber(string sMonth)
+        {
+            string convertedMonth = "";
+
+            switch (sMonth)
+            {
+                case "Janvier":
+                    convertedMonth = "01";
+                break;
+                case "Février":
+                    convertedMonth = "02";
+                    break;
+                case "Mars":
+                    convertedMonth = "03";
+                    break;
+                case "Avril":
+                    convertedMonth = "04";
+                    break;
+                case "Mai":
+                    convertedMonth = "05";
+                    break;
+                case "Juin":
+                    convertedMonth = "06";
+                    break;
+                case "Juillet":
+                    convertedMonth = "07";
+                    break;
+                case "Août":
+                    convertedMonth = "08";
+                    break;
+                case "Septembre":
+                    convertedMonth = "09";
+                    break;
+                case "Octobre":
+                    convertedMonth = "10";
+                    break;
+                case "Novembre":
+                    convertedMonth = "11";
+                    break;
+                case "Décembre":
+                    convertedMonth = "12";
+                    break;
+            }
+
+            return convertedMonth;
         }
     }
 }

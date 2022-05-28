@@ -593,4 +593,52 @@ namespace classes_metier
         }
     }
     #endregion
+
+    #region CligneFF
+    public class CligneFF
+    {
+        public CligneFF(string idVisiteur, string mois, string idFraisForfait, int quantite)
+        {
+            IdVisiteur = idVisiteur;
+            Mois = mois;
+            IdFraisForfait = idFraisForfait;
+            Quantite = quantite;
+        }
+
+        public string IdVisiteur { get; set; }
+        public string Mois { get; set; }
+        public string IdFraisForfait { get; set; }
+        public int Quantite { get; set; }
+    }
+
+    public class CligneFFs
+    {
+        public List<CligneFF> oListLigneFFs { get; set; } = new List<CligneFF>();
+        private CligneFFs()
+        {
+            Cdao odao = new Cdao();
+            string query = "call SelectLigneFF()";
+            MySqlDataReader ord = odao.getReader(query);
+            while (ord.Read())
+            {
+                CligneFF oLigneFF = new CligneFF(Convert.ToString(ord["idVisiteur"]), Convert.ToString(ord["mois"]), Convert.ToString(ord["idFraisForfait"]), Convert.ToInt16(ord["quantite"]));
+                oListLigneFFs.Add(oLigneFF);
+            }
+        }
+
+        private static CligneFFs Instance = null;
+        public static CligneFFs getInstance()
+        {
+            if (Instance == null)
+            {
+                Instance = new CligneFFs();
+                return Instance;
+            }
+            else
+            {
+                return Instance;
+            }
+        }
+    }
+    #endregion
 }

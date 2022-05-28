@@ -680,6 +680,22 @@ namespace classes_metier
                 return Instance;
             }
         }
+
+        public int ajouterLigneFF(CligneFF soLigneFF)
+        {
+            Cdao odao = new Cdao();
+            string query = $"call InsertLigneFF('{soLigneFF.IdVisiteur}', '{soLigneFF.Mois}', '{soLigneFF.IdFraisForfait}', '{soLigneFF.Quantite}')";
+            int nbEnregAffecte = odao.insertEnreg(query);
+
+            /* 
+             Pour éviter de faire un nouvel appel à la base, on créer un nouvel objet que l'on ajoute manuellement
+             à la liste
+            */
+            CligneFF oLigneFF = new CligneFF(soLigneFF.IdVisiteur, soLigneFF.Mois, soLigneFF.IdFraisForfait, soLigneFF.Quantite);
+            oListLigneFFs.Add(oLigneFF);
+
+            return nbEnregAffecte;
+        }
     }
     #endregion
 

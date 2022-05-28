@@ -13,6 +13,10 @@ namespace Test_1.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class FicheFraisController : ApiController
     {
+        #region FicheFrais
+        #endregion
+
+        #region FraisForfaits
         [HttpGet]
         public IHttpActionResult GetAllFraisForfaits()
         {
@@ -30,7 +34,9 @@ namespace Test_1.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        #endregion
 
+        #region LigneFF
         [HttpGet]
         public IHttpActionResult GetAllLigneFF()
         {
@@ -50,6 +56,35 @@ namespace Test_1.Controllers
         }
 
         [HttpGet]
+        public IHttpActionResult InsertLigneFF()
+        {
+            try
+            {
+                HttpContent content = Request.Content;
+                System.Threading.Tasks.Task<string> tacheAsync = content.ReadAsStringAsync();
+                string objetJson = tacheAsync.Result;
+
+                CligneFF oLigneFF = Newtonsoft.Json.JsonConvert.DeserializeObject<CligneFF>(objetJson);
+                CligneFFs oLigneFFs = CligneFFs.getInstance();
+                int nbEnregAffecte = 0;
+
+                nbEnregAffecte = oLigneFFs.ajouterLigneFF(oLigneFF); ;
+
+                if (nbEnregAffecte > 0)
+                {
+                    return Ok();
+                }
+                return BadRequest("ERREUR");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        #endregion
+
+        #region LigneFHF
+        [HttpGet]
         public IHttpActionResult GetAllLigneFHF()
         {
             try
@@ -66,5 +101,6 @@ namespace Test_1.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        #endregion
     }
 }

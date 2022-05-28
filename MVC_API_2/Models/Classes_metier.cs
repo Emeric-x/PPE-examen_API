@@ -153,6 +153,47 @@ namespace classes_metier
     }
     #endregion
 
+    #region Ccomptable
+    public class Ccomptable : Cemploye
+    {
+        public Ccomptable(string sid, string snom, string sprenom, string slogin, string smdp, string sadresse, int scp, string sville, DateTime sdateEmbauche, string smdp_hash, char sregion)
+            : base(sid, snom, sprenom, slogin, smdp, sadresse, scp, sville, sdateEmbauche, smdp_hash, sregion)
+        {
+
+        }
+    }
+
+    public class Ccomptables
+    {
+        public List<Ccomptable> oListComptables { get; set; } = new List<Ccomptable>();
+        private Ccomptables()
+        {
+            Cdao odao = new Cdao();
+            string query = "call SelectComptables()";
+            MySqlDataReader ord = odao.getReader(query);
+            while (ord.Read())
+            {
+                Ccomptable oComptable = new Ccomptable(Convert.ToString(ord["id"]), Convert.ToString(ord["nom"]), Convert.ToString(ord["prenom"]), Convert.ToString(ord["login"]), Convert.ToString(ord["mdp"]), Convert.ToString(ord["adresse"]), Convert.ToInt32(ord["cp"]), Convert.ToString(ord["ville"]), Convert.ToDateTime(ord["dateEmbauche"]), Convert.ToString(ord["mdp_hash"]), Convert.ToChar(ord["region"]));
+                oListComptables.Add(oComptable);
+            }
+        }
+
+        private static Ccomptables Instance = null;
+        public static Ccomptables getInstance()
+        {
+            if (Instance == null)
+            {
+                Instance = new Ccomptables();
+                return Instance;
+            }
+            else
+            {
+                return Instance;
+            }
+        }
+    }
+    #endregion
+
     #region Cmedicament
     public class Cmedicament
     {

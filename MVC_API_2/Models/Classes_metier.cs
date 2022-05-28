@@ -684,7 +684,7 @@ namespace classes_metier
         public int ajouterLigneFF(CligneFF soLigneFF)
         {
             Cdao odao = new Cdao();
-            string query = $"call InsertLigneFF('{soLigneFF.IdVisiteur}', '{soLigneFF.Mois}', '{soLigneFF.IdFraisForfait}', '{soLigneFF.Quantite}')";
+            string query = $"call InsertLigneFF('{soLigneFF.IdVisiteur}', '{soLigneFF.Mois}', '{soLigneFF.IdFraisForfait}', {soLigneFF.Quantite})";
             int nbEnregAffecte = odao.insertEnreg(query);
 
             /* 

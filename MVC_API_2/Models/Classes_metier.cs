@@ -547,4 +547,50 @@ namespace classes_metier
         }
     }
     #endregion
+
+    #region CFraisForfait
+    public class CfraisForfait
+    {
+        public CfraisForfait(string id, string libelle, double montant)
+        {
+            Id = id;
+            Libelle = libelle;
+            Montant = montant;
+        }
+
+        public string Id { get; set; }
+        public string Libelle { get; set; }
+        public double Montant { get; set; }
+    }
+
+    public class CfraisForfaits
+    {
+        public List<CfraisForfait> oListFraisForfaits { get; set; } = new List<CfraisForfait>();
+        private CfraisForfaits()
+        {
+            Cdao odao = new Cdao();
+            string query = "call SelectFraisForfaits()";
+            MySqlDataReader ord = odao.getReader(query);
+            while (ord.Read())
+            {
+                CfraisForfait oFraisForfait = new CfraisForfait(Convert.ToString(ord["id"]), Convert.ToString(ord["libelle"]), Convert.ToDouble(ord["montant"]));
+                oListFraisForfaits.Add(oFraisForfait);
+            }
+        }
+
+        private static CfraisForfaits Instance = null;
+        public static CfraisForfaits getInstance()
+        {
+            if (Instance == null)
+            {
+                Instance = new CfraisForfaits();
+                return Instance;
+            }
+            else
+            {
+                return Instance;
+            }
+        }
+    }
+    #endregion
 }

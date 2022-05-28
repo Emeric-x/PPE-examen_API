@@ -702,13 +702,12 @@ namespace classes_metier
     #region CligneFHF
     public class CligneFHF
     {
-        public CligneFHF(int id, string idVisiteur, string mois, string libelle, DateTime date, double montant)
+        public CligneFHF(int id, string idVisiteur, string mois, string libelle, double montant)
         {
             Id = id;
             IdVisiteur = idVisiteur;
             Mois = mois;
             Libelle = libelle;
-            Date = date;
             Montant = montant;
         }
 
@@ -716,7 +715,6 @@ namespace classes_metier
         public string IdVisiteur { get; set; }
         public string Mois { get; set; }
         public string Libelle { get; set; }
-        public DateTime Date { get; set; }
         public double Montant { get; set; }
     }
 
@@ -730,7 +728,7 @@ namespace classes_metier
             MySqlDataReader ord = odao.getReader(query);
             while (ord.Read())
             {
-                CligneFHF oLigneFHF = new CligneFHF(Convert.ToInt16(ord["id"]), Convert.ToString(ord["idVisiteur"]), Convert.ToString(ord["mois"]), Convert.ToString(ord["libelle"]), Convert.ToDateTime(ord["date"]), Convert.ToDouble(ord["montant"]));
+                CligneFHF oLigneFHF = new CligneFHF(Convert.ToInt16(ord["id"]), Convert.ToString(ord["idVisiteur"]), Convert.ToString(ord["mois"]), Convert.ToString(ord["libelle"]), Convert.ToDouble(ord["montant"]));
                 oListLigneFHFs.Add(oLigneFHF);
             }
         }
@@ -752,14 +750,14 @@ namespace classes_metier
         public int ajouterLigneFHF(CligneFHF soLigneFHF)
         {
             Cdao odao = new Cdao();
-            string query = $"call InsertLigneFHF('{soLigneFHF.Id}', '{soLigneFHF.IdVisiteur}', '{soLigneFHF.Mois}', '{soLigneFHF.Libelle}', '{soLigneFHF.Date}', '{soLigneFHF.Montant}')";
+            string query = $"call InsertLigneFHF('{oListLigneFHFs.Count+1}', '{soLigneFHF.IdVisiteur}', '{soLigneFHF.Mois}', '{soLigneFHF.Libelle}', '{soLigneFHF.Montant}')";
             int nbEnregAffecte = odao.insertEnreg(query);
 
             /* 
              Pour éviter de faire un nouvel appel à la base, on créer un nouvel objet que l'on ajoute manuellement
              à la liste
             */
-            CligneFHF oLigneFHF = new CligneFHF(soLigneFHF.Id, soLigneFHF.IdVisiteur, soLigneFHF.Mois, soLigneFHF.Libelle, soLigneFHF.Date, soLigneFHF.Montant);
+            CligneFHF oLigneFHF = new CligneFHF(oListLigneFHFs.Count + 1, soLigneFHF.IdVisiteur, soLigneFHF.Mois, soLigneFHF.Libelle, soLigneFHF.Montant);
             oListLigneFHFs.Add(oLigneFHF);
 
             return nbEnregAffecte;

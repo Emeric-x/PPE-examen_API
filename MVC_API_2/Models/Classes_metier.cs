@@ -748,6 +748,22 @@ namespace classes_metier
                 return Instance;
             }
         }
+
+        public int ajouterLigneFHF(CligneFHF soLigneFHF)
+        {
+            Cdao odao = new Cdao();
+            string query = $"call InsertLigneFHF('{soLigneFHF.Id}', '{soLigneFHF.IdVisiteur}', '{soLigneFHF.Mois}', '{soLigneFHF.Libelle}', '{soLigneFHF.Date}', '{soLigneFHF.Montant}')";
+            int nbEnregAffecte = odao.insertEnreg(query);
+
+            /* 
+             Pour éviter de faire un nouvel appel à la base, on créer un nouvel objet que l'on ajoute manuellement
+             à la liste
+            */
+            CligneFHF oLigneFHF = new CligneFHF(soLigneFHF.Id, soLigneFHF.IdVisiteur, soLigneFHF.Mois, soLigneFHF.Libelle, soLigneFHF.Date, soLigneFHF.Montant);
+            oListLigneFHFs.Add(oLigneFHF);
+
+            return nbEnregAffecte;
+        }
     }
     #endregion
 }

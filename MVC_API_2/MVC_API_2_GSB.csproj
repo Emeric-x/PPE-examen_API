@@ -212,7 +212,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\EmployeController.cs" />
     <Compile Include="Controllers\MedicamentController.cs" />
-    <Compile Include="Controllers\RegionController.cs" />
+    <Compile Include="Controllers\FicheFraisController.cs" />
     <Compile Include="Controllers\MedecinController.cs" />
     <Compile Include="Controllers\CompteRenduController.cs" />
     <Compile Include="Controllers\AuthentificationController.cs" />

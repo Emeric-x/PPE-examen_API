@@ -55,7 +55,7 @@ namespace Test_1.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpPost]
         public IHttpActionResult InsertLigneFF()
         {
             try
@@ -93,6 +93,33 @@ namespace Test_1.Controllers
                 if (oLigneFHs.oListLigneFHFs != null)
                 {
                     return Json(oLigneFHs.oListLigneFHFs);
+                }
+                return BadRequest("ERREUR");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        public IHttpActionResult InsertLigneFHF()
+        {
+            try
+            {
+                HttpContent content = Request.Content;
+                System.Threading.Tasks.Task<string> tacheAsync = content.ReadAsStringAsync();
+                string objetJson = tacheAsync.Result;
+
+                CligneFHF oLigneFHF = Newtonsoft.Json.JsonConvert.DeserializeObject<CligneFHF>(objetJson);
+                CligneFHFs oLigneFHFs = CligneFHFs.getInstance();
+                int nbEnregAffecte = 0;
+
+                nbEnregAffecte = oLigneFHFs.ajouterLigneFHF(oLigneFHF); ;
+
+                if (nbEnregAffecte > 0)
+                {
+                    return Ok();
                 }
                 return BadRequest("ERREUR");
             }

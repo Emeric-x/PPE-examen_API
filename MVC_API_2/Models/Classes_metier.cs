@@ -641,4 +641,56 @@ namespace classes_metier
         }
     }
     #endregion
+
+    #region CligneFHF
+    public class CligneFHF
+    {
+        public CligneFHF(int id, string idVisiteur, string mois, string libelle, DateTime date, double montant)
+        {
+            Id = id;
+            IdVisiteur = idVisiteur;
+            Mois = mois;
+            Libelle = libelle;
+            Date = date;
+            Montant = montant;
+        }
+
+        public int Id { get; set; }
+        public string IdVisiteur { get; set; }
+        public string Mois { get; set; }
+        public string Libelle { get; set; }
+        public DateTime Date { get; set; }
+        public double Montant { get; set; }
+    }
+
+    public class CligneFHFs
+    {
+        public List<CligneFHF> oListLigneFHFs { get; set; } = new List<CligneFHF>();
+        private CligneFHFs()
+        {
+            Cdao odao = new Cdao();
+            string query = "call SelectLigneFHF()";
+            MySqlDataReader ord = odao.getReader(query);
+            while (ord.Read())
+            {
+                CligneFHF oLigneFHF = new CligneFHF(Convert.ToInt16(ord["id"]), Convert.ToString(ord["idVisiteur"]), Convert.ToString(ord["mois"]), Convert.ToString(ord["libelle"]), Convert.ToDateTime(ord["date"]), Convert.ToDouble(ord["montant"]));
+                oListLigneFHFs.Add(oLigneFHF);
+            }
+        }
+
+        private static CligneFHFs Instance = null;
+        public static CligneFHFs getInstance()
+        {
+            if (Instance == null)
+            {
+                Instance = new CligneFHFs();
+                return Instance;
+            }
+            else
+            {
+                return Instance;
+            }
+        }
+    }
+    #endregion
 }

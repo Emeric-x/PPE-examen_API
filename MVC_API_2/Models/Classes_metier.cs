@@ -495,4 +495,56 @@ namespace classes_metier
         }
     }
     #endregion
+
+    #region CficheFrais
+    public class CficheFrais
+    {
+        public CficheFrais(string idVisiteur, string mois, int nbJustificatifs, double montantValide, DateTime dateModif, string idEtat)
+        {
+            IdVisiteur = idVisiteur;
+            Mois = mois;
+            NbJustificatifs = nbJustificatifs;
+            MontantValide = montantValide;
+            DateModif = dateModif;
+            IdEtat = idEtat;
+        }
+
+        public string IdVisiteur { get; set; }
+        public string Mois { get; set; }
+        public int NbJustificatifs { get; set; }
+        public double MontantValide { get; set; }
+        public DateTime DateModif { get; set; }
+        public string IdEtat { get; set; }
+    }
+
+    public class CficheFraiss
+    {
+        public List<CficheFrais> oListFicheFrais { get; set; } = new List<CficheFrais>();
+        private CficheFraiss()
+        {
+            Cdao odao = new Cdao();
+            string query = "call SelectFicheFrais()";
+            MySqlDataReader ord = odao.getReader(query);
+            while (ord.Read())
+            {
+                CficheFrais oFicheFrais = new CficheFrais(Convert.ToString(ord["idVisiteur"]), Convert.ToString(ord["mois"]), Convert.ToInt16(ord["nbJustificatifs"]), Convert.ToDouble(ord["montantValide"]), Convert.ToDateTime(ord["dateModif"]), Convert.ToString(ord["idEtat"]));
+                oListFicheFrais.Add(oFicheFrais);
+            }
+        }
+
+        private static CficheFraiss Instance = null;
+        public static CficheFraiss getInstance()
+        {
+            if (Instance == null)
+            {
+                Instance = new CficheFraiss();
+                return Instance;
+            }
+            else
+            {
+                return Instance;
+            }
+        }
+    }
+    #endregion
 }

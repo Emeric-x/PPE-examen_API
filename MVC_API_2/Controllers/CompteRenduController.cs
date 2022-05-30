@@ -16,6 +16,22 @@ namespace Test_1.Controllers
 
     public class CompteRenduController : ApiController
     {
-        
+        [HttpGet]
+        public IHttpActionResult GetAllCompteRendu()
+        {
+            try
+            {
+                CcompteRendus oCompteRendus = CcompteRendus.getInstance();
+                if (oCompteRendus.oListCompteRendus != null)
+                {
+                    return Json(oCompteRendus.oListCompteRendus);
+                }
+                return BadRequest("ERREUR");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

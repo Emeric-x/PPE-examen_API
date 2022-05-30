@@ -379,18 +379,18 @@ namespace classes_metier
     #region CcompteRendu
     public class CcompteRendu
     {
-        public CcompteRendu(int id, string id_visit, string fichier, DateTime date)
+        public CcompteRendu(int id, string id_visit, string fichier, string anneeMois)
         {
             Id = id;
             Id_visit = id_visit;
             Fichier = fichier;
-            Date = date;
+            AnneeMois = anneeMois;
         }
 
         public int Id { get; set; }
         public string Id_visit { get; set; }
         public string Fichier { get; set; }
-        public DateTime Date { get; set; }
+        public string AnneeMois { get; set; }
     }
 
     public class CcompteRendus
@@ -403,7 +403,7 @@ namespace classes_metier
             MySqlDataReader ord = odao.getReader(query);
             while (ord.Read())
             {
-                CcompteRendu ocompteRendu = new CcompteRendu(Convert.ToInt16(ord["id"]), Convert.ToString(ord["id_visit"]), Convert.ToString(ord["fichier"]), Convert.ToDateTime(ord["date"]));
+                CcompteRendu ocompteRendu = new CcompteRendu(Convert.ToInt16(ord["id"]), Convert.ToString(ord["id_visit"]), Convert.ToString(ord["fichier"]), Convert.ToString(ord["anneeMois"]));
                 oListCompteRendus.Add(ocompteRendu);
             }
         }
@@ -433,7 +433,7 @@ namespace classes_metier
             Id_visit = id_visit;
             Id_medecin = id_medecin;
             AnneeMois = anneeMois;
-            isVisite = isVisite;
+            IsVisite = isVisite;
         }
 
         public string Id_med { get; set; }

@@ -427,18 +427,20 @@ namespace classes_metier
     #region Cpresenter
     public class Cpresenter
     {
-        public Cpresenter(string id_med, string id_visit, int id_medecin, string anneeMois)
+        public Cpresenter(string id_med, string id_visit, int id_medecin, string anneeMois, bool isVisite)
         {
             Id_med = id_med;
             Id_visit = id_visit;
             Id_medecin = id_medecin;
             AnneeMois = anneeMois;
+            isVisite = isVisite;
         }
 
         public string Id_med { get; set; }
         public string Id_visit { get; set; }
         public int Id_medecin { get; set; }
         public string AnneeMois { get; set; }
+        public bool IsVisite { get; set; }
     }
 
     public class Cpresenters
@@ -451,7 +453,7 @@ namespace classes_metier
             MySqlDataReader ord = odao.getReader(query);
             while (ord.Read())
             {
-                Cpresenter opresenter = new Cpresenter(Convert.ToString(ord["id_med"]), Convert.ToString(ord["id_visit"]), Convert.ToInt16(ord["id_medecin"]), Convert.ToString(ord["anneeMois"]));
+                Cpresenter opresenter = new Cpresenter(Convert.ToString(ord["id_med"]), Convert.ToString(ord["id_visit"]), Convert.ToInt16(ord["id_medecin"]), Convert.ToString(ord["anneeMois"]), Convert.ToBoolean(ord["isVisite"]));
                 oListPresenters.Add(opresenter);
             }
         }
@@ -480,7 +482,7 @@ namespace classes_metier
                 string query = string.Format($"call InsertPresenter('{sId_med}', '{sId_visit}', {sId_medecin}, '{AnneeMois}')");
                 odao.insertEnreg(query);
 
-                Cpresenter opresenter = new Cpresenter(sId_med, sId_visit, sId_medecin, AnneeMois);
+                Cpresenter opresenter = new Cpresenter(sId_med, sId_visit, sId_medecin, AnneeMois, false);
                 oListPresenters.Add(opresenter);
 
                 return true;

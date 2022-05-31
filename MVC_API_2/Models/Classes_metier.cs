@@ -403,7 +403,7 @@ namespace classes_metier
             MySqlDataReader ord = odao.getReader(query);
             while (ord.Read())
             {
-                CcompteRendu ocompteRendu = new CcompteRendu(Convert.ToInt16(ord["id"]), Convert.ToString(ord["id_visit"]), Convert.ToString(ord["fichier"]), Convert.ToString(ord["anneeMois"]));
+                CcompteRendu ocompteRendu = new CcompteRendu(Convert.ToInt16(ord["id"]), Convert.ToString(ord["id_visit"]), Convert.ToBase64String((byte[])ord["fichier"]), Convert.ToString(ord["anneeMois"]));
                 oListCompteRendus.Add(ocompteRendu);
             }
         }
@@ -420,6 +420,22 @@ namespace classes_metier
             {
                 return Instance;
             }
+        }
+
+        public int ajouterCompteRendu(CcompteRendu soCompteRendu)
+        {
+            Cdao odao = new Cdao();
+            string query = $"call InsertCompteRendu('{soCompteRendu.Id_visit}', '{soCompteRendu.Fichier}', '{soCompteRendu.AnneeMois}')";
+            int nbEnregAffecte = odao.insertEnreg(query);
+
+            /* 
+             Pour éviter de faire un nouvel appel à la base, on créer un nouvel objet que l'on ajoute manuellement
+             à la liste
+            */
+            CcompteRendu oCompteRendu = new CcompteRendu(oListCompteRendus.Count()+1, soCompteRendu.Id_visit, soCompteRendu.Fichier, soCompteRendu.AnneeMois);
+            oListCompteRendus.Add(oCompteRendu);
+
+            return nbEnregAffecte;
         }
     }
     #endregion

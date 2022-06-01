@@ -381,18 +381,20 @@ namespace classes_metier
     #region CcompteRendu
     public class CcompteRendu
     {
-        public CcompteRendu(int id, string id_visit, string lienFichier, string anneeMois)
+        public CcompteRendu(int id, string id_visit, string lienFichier, string anneeMois, string libelle)
         {
             Id = id;
             Id_visit = id_visit;
             LienFichier = lienFichier;
             AnneeMois = anneeMois;
+            Libelle = libelle;
         }
 
         public int Id { get; set; }
         public string Id_visit { get; set; }
         public string LienFichier { get; set; }
         public string AnneeMois { get; set; }
+        public string Libelle { get; set; }
     }
 
     public class CcompteRendus
@@ -405,7 +407,7 @@ namespace classes_metier
             MySqlDataReader ord = odao.getReader(query);
             while (ord.Read())
             {
-                CcompteRendu ocompteRendu = new CcompteRendu(Convert.ToInt16(ord["id"]), Convert.ToString(ord["id_visit"]), Convert.ToString(ord["lienFichier"]), Convert.ToString(ord["anneeMois"]));
+                CcompteRendu ocompteRendu = new CcompteRendu(Convert.ToInt16(ord["id"]), Convert.ToString(ord["id_visit"]), Convert.ToString(ord["lienFichier"]), Convert.ToString(ord["anneeMois"]), Convert.ToString(ord["libelle"]));
                 oListCompteRendus.Add(ocompteRendu);
             }
         }
@@ -427,14 +429,14 @@ namespace classes_metier
         public int ajouterCompteRendu(CcompteRendu soCompteRendu)
         {
             Cdao odao = new Cdao();
-            string query = $"call InsertCompteRendu('{soCompteRendu.Id_visit}', '{soCompteRendu.LienFichier}', '{soCompteRendu.AnneeMois}')";
+            string query = $"call InsertCompteRendu('{soCompteRendu.Id_visit}', '{soCompteRendu.LienFichier}', '{soCompteRendu.AnneeMois}', '{soCompteRendu.Libelle}')";
             int nbEnregAffecte = odao.insertEnreg(query);
 
             /* 
              Pour éviter de faire un nouvel appel à la base, on créer un nouvel objet que l'on ajoute manuellement
              à la liste
             */
-            CcompteRendu oCompteRendu = new CcompteRendu(oListCompteRendus.Count()+1, soCompteRendu.Id_visit, soCompteRendu.LienFichier, soCompteRendu.AnneeMois);
+            CcompteRendu oCompteRendu = new CcompteRendu(oListCompteRendus.Count()+1, soCompteRendu.Id_visit, soCompteRendu.LienFichier, soCompteRendu.AnneeMois, soCompteRendu.Libelle);
             oListCompteRendus.Add(oCompteRendu);
 
             return nbEnregAffecte;

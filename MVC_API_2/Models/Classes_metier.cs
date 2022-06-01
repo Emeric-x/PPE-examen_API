@@ -89,6 +89,7 @@ namespace classes_metier
                 if(oUnvisiteur.Login == slogin)
                 {
                     ovisiteur = oUnvisiteur;
+                    break;
                 }
             }
 
@@ -145,6 +146,7 @@ namespace classes_metier
                 if (oUnChef.Login == slogin)
                 {
                     ochefRegion = oUnChef;
+                    break;
                 }
             }
 
@@ -781,8 +783,9 @@ namespace classes_metier
             return nbEnregAffecte;
         }
 
-        public List<CligneFHF> supprimerLigneFHF(int sIdLigneFHF)
+        public bool supprimerLigneFHF(int sIdLigneFHF)
         {
+            bool isSupprime = false;
             Cdao odao = new Cdao();
             string query = $"call DeleteLigneFHF('{sIdLigneFHF}')";
             int nbEnregAffecte = odao.deleteEnreg(query);
@@ -795,12 +798,13 @@ namespace classes_metier
                     if(uneLigneFHF.Id == sIdLigneFHF)
                     {
                         oListLigneFHFs.Remove(uneLigneFHF);
+                        isSupprime = true;
                         break;
                     }
                 }
             }
 
-            return oListLigneFHFs;
+            return isSupprime;
         }
     }
     #endregion

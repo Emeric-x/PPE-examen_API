@@ -119,7 +119,7 @@ namespace Test_1.Controllers
 
                 if (nbEnregAffecte > 0)
                 {
-                    return Ok();
+                    return Json(oLigneFHFs.oListLigneFHFs);
                 }
                 return BadRequest("ERREUR");
             }
@@ -135,10 +135,10 @@ namespace Test_1.Controllers
             try
             {
                 CligneFHFs oLigneFHFs = CligneFHFs.getInstance();
-                List<CligneFHF> ListRetour = oLigneFHFs.supprimerLigneFHF(sIdLigneFHF);
-                if (ListRetour != null)
+                bool isSupprime = oLigneFHFs.supprimerLigneFHF(sIdLigneFHF);
+                if (isSupprime)
                 {
-                    return Json(ListRetour);
+                    return Json(oLigneFHFs.oListLigneFHFs);
                 }
                 return BadRequest("ERREUR");
             }

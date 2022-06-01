@@ -780,6 +780,28 @@ namespace classes_metier
 
             return nbEnregAffecte;
         }
+
+        public List<CligneFHF> supprimerLigneFHF(int sIdLigneFHF)
+        {
+            Cdao odao = new Cdao();
+            string query = $"call DeleteLigneFHF('{sIdLigneFHF}')";
+            int nbEnregAffecte = odao.deleteEnreg(query);
+
+            // suppression de l'objet correspondant dans la liste des lignesFHF
+            if(nbEnregAffecte > 0)
+            {
+                foreach(CligneFHF uneLigneFHF in oListLigneFHFs)
+                {
+                    if(uneLigneFHF.Id == sIdLigneFHF)
+                    {
+                        oListLigneFHFs.Remove(uneLigneFHF);
+                        break;
+                    }
+                }
+            }
+
+            return oListLigneFHFs;
+        }
     }
     #endregion
 }

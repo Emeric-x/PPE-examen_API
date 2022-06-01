@@ -34,15 +34,14 @@ namespace classes_outils
           
         }
 
-        public void deleteEnreg(string squery)
+        public int deleteEnreg(string squery)
         {
           
                 MySqlConnection ocnx = new MySqlConnection(connectionString);
                 ocnx.Open();
                 MySqlCommand ocmd = new MySqlCommand(squery, ocnx);
                 int nbEnregAffecte = ocmd.ExecuteNonQuery();
-                
-              
+                return nbEnregAffecte;
         }
 
         public int updateEnreg(string squery)

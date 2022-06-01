@@ -36,6 +36,12 @@ namespace Test_1
             );
 
             config.Routes.MapHttpRoute(
+            name: "Delete_LigneFHF",
+            routeTemplate: "api/FicheFrais/DeleteLigneFHF/{sIdLigneFHF}",
+            defaults: new { controller = "FicheFrais", action = "DeleteLigneFHF" }
+            );
+
+            config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{action}",
                 defaults: new { sid = RouteParameter.Optional, slibelle = RouteParameter.Optional, smontant = RouteParameter.Optional }

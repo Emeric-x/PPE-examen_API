@@ -128,6 +128,25 @@ namespace Test_1.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet] // pour cette méthode le HttpDelete ne fonctionne pas (je sais pas pq)
+        public IHttpActionResult DeleteLigneFHF(int sIdLigneFHF)
+        {
+            try
+            {
+                CligneFHFs oLigneFHFs = CligneFHFs.getInstance();
+                List<CligneFHF> ListRetour = oLigneFHFs.supprimerLigneFHF(sIdLigneFHF);
+                if (ListRetour != null)
+                {
+                    return Json(ListRetour);
+                }
+                return BadRequest("ERREUR");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
         #endregion
     }
 }

@@ -52,7 +52,7 @@ namespace Test_1.Controllers
 
                 if (nbEnregAffecte > 0)
                 {
-                    return Ok();
+                    return Json(oCompteRendus.oListCompteRendus);
                 }
                 return BadRequest("ERREUR");
             }

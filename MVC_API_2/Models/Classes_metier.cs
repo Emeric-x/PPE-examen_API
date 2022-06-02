@@ -772,14 +772,14 @@ namespace classes_metier
         public int ajouterLigneFHF(CligneFHF soLigneFHF)
         {
             Cdao odao = new Cdao();
-            string query = $"call InsertLigneFHF('{oListLigneFHFs.Count+1}', '{soLigneFHF.IdVisiteur}', '{soLigneFHF.Mois}', '{soLigneFHF.Libelle}', '{soLigneFHF.Montant}')";
+            string query = $"call InsertLigneFHF('{soLigneFHF.IdVisiteur}', '{soLigneFHF.Mois}', '{soLigneFHF.Libelle}', '{soLigneFHF.Montant}')";
             int nbEnregAffecte = odao.insertEnreg(query);
 
             /* 
              Pour éviter de faire un nouvel appel à la base, on créer un nouvel objet que l'on ajoute manuellement
              à la liste
             */
-            CligneFHF oLigneFHF = new CligneFHF(oListLigneFHFs.Count + 1, soLigneFHF.IdVisiteur, soLigneFHF.Mois, soLigneFHF.Libelle, soLigneFHF.Montant);
+            CligneFHF oLigneFHF = new CligneFHF(oListLigneFHFs[oListLigneFHFs.Count-1].Id+1, soLigneFHF.IdVisiteur, soLigneFHF.Mois, soLigneFHF.Libelle, soLigneFHF.Montant);
             oListLigneFHFs.Add(oLigneFHF);
 
             return nbEnregAffecte;
